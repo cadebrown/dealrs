@@ -2,6 +2,10 @@
 name = "dealrs"
 version = "0.1.0"
 edition = "2024"
+description = "Toolkit for card games like poker, providing card, deck, hand, and exploration utilities."
+license = "MIT"
+authors = ["Cade Brown <brown.cade@gmail.com>"]
+repository = "https://github.com/cadebrown/dealrs"
 
 [features]
 include_lutbest5 = []
