@@ -29,12 +29,12 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     // sample the cards, with order
     // it is normally more efficient to sample WITHOUT order, but this is done here so printing them out can be in any order
-    let cards = sample_cards_ordered(CardMask::full(), args.num, &mut rng);
+    let cards = sample_cards_ordered(CardMask::FULL, args.num, &mut rng);
     assert_eq!(cards.len(), args.num, "expected {} cards, got {}", args.num, cards.len());
 
     // print out and display the cards
     for (idx, &card) in cards.iter().enumerate() {
-        println!("card #{:?}: {:} (debug={:?}) (index={:?})", idx, card, card, card.to_index());
+        println!("card #{:?}: {:} (debug={:?}) (index={:?})", idx, card, card, card.index());
     }
 
     Ok(())

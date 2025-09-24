@@ -36,7 +36,7 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     for _ in 0..args.count {
 
         // deal the two cards from the deck, and capture them
-        let [c1, c2] = sample_cards_ordered(CardMask::full(), 2, &mut rng)[..2].try_into().unwrap();
+        let [c1, c2] = sample_cards_ordered(CardMask::FULL, 2, &mut rng)[..2].try_into().unwrap();
 
         // check whether the two cards are a pair (manually)
         let is_pair = c1.rank() == c2.rank();

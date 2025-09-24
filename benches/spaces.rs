@@ -3,15 +3,15 @@ use criterion::BenchmarkId;
 use criterion::Criterion;
 use criterion::{criterion_group, criterion_main};
 use dealrs::combrs::binom;
-use dealrs::combrs::multiset_decode;
+use dealrs::combrs::bagspace::BagSpace;
 use dealrs::rng_from_seed;
 use rand::rngs::SmallRng;
 use rand::Rng;
 use rand::SeedableRng;
 
-fn bench_dec<R: Rng>(rng: &mut R, n: usize, k: usize, choose_nk: usize, seq: &mut [usize]) {
+fn bench_dec<R: Rng>(rng: &mut R, bagspace: &BagSpace, choose_nk: usize, seq: &mut [usize]) {
     let idx = rng.random_range(0..choose_nk);
-    multiset_decode(idx, n, k, seq);
+    bagspace.dec(idx, seq);
     // assert!(seq[0] <= seq[1]);
 }
 
@@ -23,8 +23,9 @@ fn from_elem(c: &mut Criterion) {
         for k in 1..=n {
             let mut seq = [0usize; 64];
             let choose_nk = binom(n + k - 1, k);
-            group.bench_with_input(BenchmarkId::from_parameter(format!("n={},k={}", n, k)), &(n, k, choose_nk), |b, &(n, k, choose_nk)| {
-                b.iter(|| bench_dec(&mut rng, n, k, choose_nk, &mut seq));
+            let bagspace = BagSpace::new(n, k);
+            group.bench_with_input(BenchmarkId::from_parameter(format!("n={},k={}", n, k)), &(n, k, bagspace), |b, &(n, k, bagspace)| {
+                b.iter(|| bench_dec(&mut rng, &bagspace, choose_nk, &mut seq[..k]));
             });
         }
     }

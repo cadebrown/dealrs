@@ -44,7 +44,23 @@ If you need to regenerate the lookup tables, you can do so with the following co
 ```shell
 # regenerates the lookup tables for the best 5-card hands
 # NOTE: --no-default-features is required if the files do not exist, since by default they are included and will cause a compilation error
-$ cargo run --package dealrs --example gen-lutbest5 --no-default-features
+$ cargo run --package dealrs --bin lutrank --no-default-features --
 ```
 
-You can double check the generated report ([`lutbest5.md`](./src/hand/lutbest5/lutbest5.md)) to see if the tables are correct, and when debugging.
+You can double check the generated report ([`lutrank.md`](./src/hand/lutrank/lutrank.md)) to see if the tables are correct, and when debugging.
+
+### Publishing Releases
+
+To publish a new release, update the version in `Cargo.toml`, commit the changes, and then run the following command:
+
+```shell
+$ cargo publish --dry-run
+```
+
+If this succeeds, then you can actually  publish the release with the following command:
+
+```shell
+$ cargo publish
+```
+
+This will upload the new version to crates.io.

@@ -1,8 +1,7 @@
-// refbest5.rs - example program that determines the best 5-card subset of a hand, using a reference implementation
 
 extern crate dealrs;
 
-use dealrs::{deck::CardMask, hand::{refbest5::RefBest5, Best5}};
+use dealrs::{deck::CardMask, hand::{lutrank::LutRank, refhand5::RefHand5, Hand5, Rank5}};
 
 use clap::Parser;
 
@@ -25,12 +24,19 @@ fn main() -> Result<(), Box<dyn std::error::Error>> {
     println!("cards[{:?}]: {:}", cards.count(), cards);
     
     // create the reference evaluator
-    let engine= RefBest5::new();
+    let engine_ref= RefHand5::new();
 
     // determine the best hand 
-    let (used, hand) = engine.best5(cards);
-    println!("used: {:}", used);
-    println!("hand: {:}", hand);
+    let hand = engine_ref.hand5(cards);
+    println!("hand_ref: {:}", hand);
+
+    let engine_lut= LutRank::new();
+
+    let rank = engine_lut.rank5(cards);
+    println!("rank_lut: {:}", rank);
+    let hand = engine_lut.hand5(cards);
+    println!("hand_lut: {:}", hand);
+    // println!("hand_lut: {:}", hand.unwrap());
 
     Ok(())
 }
